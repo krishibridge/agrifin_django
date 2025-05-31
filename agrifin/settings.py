@@ -94,27 +94,27 @@ WSGI_APPLICATION = 'agrifin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'agrifin_sensors',
-#         'USER': 'agrifin_sensors_user',
-#         'PASSWORD': '3W3V41ZJHO07eHYNT0vk2lkiuG2JDCHH',
-#         'HOST': 'dpg-cvsk8gbe5dus7396qc90-a.singapore-postgres.render.com',
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'agrifin_sensors',
-        'USER': 'postgres',
-        'PASSWORD': 'Prey0412',
-        'HOST': 'localhost',
+        'USER': 'agrifin_sensors_user',
+        'PASSWORD': '3W3V41ZJHO07eHYNT0vk2lkiuG2JDCHH',
+        'HOST': 'dpg-cvsk8gbe5dus7396qc90-a.singapore-postgres.render.com',
         'PORT': '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'agrifin_sensors',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Prey0412',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 

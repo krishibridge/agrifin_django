@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Device, SoilData, EnvironmentData, VisionData
 
 class DeviceSerializer(serializers.ModelSerializer):
+    farm = serializers.CharField(source='farm.location', read_only=True)
     class Meta:
         model = Device
         fields = '__all__'
