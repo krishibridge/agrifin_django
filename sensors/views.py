@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializers import *
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class SensorDataView(APIView):
     def get(self, request):
@@ -96,6 +98,8 @@ class VisionDataView(APIView):
             return Response(vision_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeviceView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes     = [IsAuthenticated]
     def get(self, request, device_id=None):
         if device_id:
             try:
