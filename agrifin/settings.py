@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-vx8jl2fd&5&s9(*@q+7y3_^+8wyy)m4)t)(nv8zjharg=#n5d5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1' , ]
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1' , 'agrifin-django.onrender.com']
 
 AUTH_USER_MODEL = 'core.User'
 
