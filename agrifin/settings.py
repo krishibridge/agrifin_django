@@ -97,10 +97,10 @@ WSGI_APPLICATION = 'agrifin.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'agrifin_sensors',
-        'USER': 'agrifin_sensors_user',
-        'PASSWORD': '3W3V41ZJHO07eHYNT0vk2lkiuG2JDCHH',
-        'HOST': 'dpg-cvsk8gbe5dus7396qc90-a.singapore-postgres.render.com',
+        'NAME': 'krishibridge',
+        'USER': 'krishibridge_user',
+        'PASSWORD': 'BN3tUGhjLe9sgvV3pYYVNJDiX14LmixZ',
+        'HOST': 'dpg-d1lvl0vdiees7387nir0-a.singapore-postgres.render.com',
         'PORT': '5432',
     }
 }
