@@ -4,7 +4,9 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import *
-from .models import User, Farm
+from rest_framework.response import Response
+from .models import User, Farm, Device
+from rest_framework import status
 
 
 # 1) Registration still uses your RegisterSerializer
@@ -98,3 +100,47 @@ class FarmDetailView(generics.RetrieveUpdateDestroyAPIView):
             serializer.save()
         else:
             serializer.save()
+
+
+class DeviceView(generics.ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes     = [IsAuthenticated]
+    def get(self, request, device_id=None):
+        if device_id:
+            try:
+                device = Device.objects.get(id=device_id)
+                serializer = DeviceSerializer(device)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except Device.DoesNotExist:
+                return Response({'error': 'Device not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            devices = Device.objects.all()
+            serializer = DeviceSerializer(devices, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = DeviceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, device_id):
+        try:
+            device = Device.objects.get(id=device_id)
+        except Device.DoesNotExist:
+            return Response({'error': 'Device not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = DeviceSerializer(device, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, device_id):
+        try:
+            device = Device.objects.get(id=device_id)
+            device.delete()
+            return Response({'message': 'Device deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Device.DoesNotExist:
+            return Response({'error': 'Device not found'}, status=status.HTTP_404_NOT_FOUND)

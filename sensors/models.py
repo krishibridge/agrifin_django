@@ -1,21 +1,5 @@
 from django.db import models
-from core.models import Farm
-
-
-class Device(models.Model):
-    device_name = models.CharField(max_length=100)
-    farm = models.ForeignKey(
-        Farm,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,  # Device can exist unassigned
-        related_name="devices",
-    )
-    installed_on = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.device_name
+from core.models import Device
 
 
 class SoilData(models.Model):

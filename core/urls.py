@@ -13,4 +13,5 @@ urlpatterns = [
     
     path("farm/", FarmListCreateView.as_view(), name="farm-list-create"),
     path("farm/<int:pk>/", FarmDetailView.as_view(), name="farm-detail"),
+    path('device/', DeviceView.as_view(), name='device-data'),
 ]

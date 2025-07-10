@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import User, Farm
+from .models import Device, User, Farm
 from django.contrib.auth import authenticate
 
 
@@ -72,11 +72,32 @@ class LoginSerializer(serializers.Serializer):
 
 class FarmSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.filter(role="farmer"),
-        required=False, 
-        source='owner.get_full_name'
+        queryset=User.objects.filter(role="farmer"), required=False
     )
+    owner_name = serializers.CharField(source="owner.get_full_name", read_only=True)
+
     class Meta:
         model = Farm
-        fields = ["id", "owner", "location", "size"]
-        read_only_fields = [] 
+        fields = ["id", "owner", "owner_name", "location", "size"]
+        read_only_fields = ["owner_name"]
+
+
+class DeviceSerializer(serializers.ModelSerializer):
+    # For reads, you can still expose the farm’s location if you like:
+    farm_location = serializers.CharField(
+        source='farm.location',
+        read_only=True
+    )
+
+    # For writes, accept a farm pk
+    farm = serializers.PrimaryKeyRelatedField(
+        queryset=Farm.objects.all(),
+        allow_null=True,
+        required=False
+    )
+
+    class Meta:
+        model = Device
+        # note: include both farm (writable) and farm_location (readable) if you want
+        fields = ['id', 'device_name', 'farm', 'farm_location', 'installed_on', 'status']
+        read_only_fields = ['installed_on']

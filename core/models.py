@@ -56,3 +56,18 @@ class Farm(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="farms")
     location = models.CharField(max_length=255)
     size = models.FloatField(help_text="Area in acres")
+
+class Device(models.Model):
+    device_name = models.CharField(max_length=100)
+    farm = models.ForeignKey(
+        Farm,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,  # Device can exist unassigned
+        related_name="devices",
+    )
+    installed_on = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.device_name
