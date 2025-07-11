@@ -27,12 +27,12 @@ class SensorDataView(APIView):
         return Response(data)
 
     def post(self, request):
-        device_id = request.data.get('device_id')
-        if not device_id:
-            return Response({'error': 'device_id is required'}, status=400)
+        device_name = request.data.get('device_name')
+        if not device_name:
+            return Response({'error': 'device_name is required'}, status=400)
 
         try:
-            device = Device.objects.get(id=device_id)
+            device = Device.objects.get(device_name=device_name)
         except Device.DoesNotExist:
             return Response({'error': 'Device not found'}, status=404)
 

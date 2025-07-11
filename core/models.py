@@ -58,7 +58,7 @@ class Farm(models.Model):
     size = models.FloatField(help_text="Area in acres")
 
 class Device(models.Model):
-    device_name = models.CharField(max_length=100)
+    device_name = models.CharField(max_length=100, unique=True)
     farm = models.ForeignKey(
         Farm,
         on_delete=models.SET_NULL,
