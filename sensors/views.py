@@ -7,6 +7,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class SensorDataView(APIView):
+    authentication_classes = []                # no auth backends
+    permission_classes     = [ AllowAny ] 
     def get(self, request):
         device_id = request.query_params.get('device_id')
         if not device_id:
@@ -64,6 +66,8 @@ class SensorDataView(APIView):
         return Response(response_data, status=status.HTTP_201_CREATED)
 
 class VisionDataView(APIView):
+    authentication_classes = []                # no auth backends
+    permission_classes     = [ AllowAny ] 
     def get(self, request):
         device_id = request.query_params.get('device_id')
         if not device_id:
