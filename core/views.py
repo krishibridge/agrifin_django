@@ -106,15 +106,24 @@ class DeviceView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes     = [IsAuthenticated]
     def get(self, request, device_id=None):
+        user = request.user
         if device_id:
             try:
                 device = Device.objects.get(id=device_id)
+                # Only allow farmers to access their own farm's devices
+                if user.role == "farmer" and (not device.farm or device.farm.owner != user):
+                    return Response({'error': 'Not authorized to view this device'}, status=status.HTTP_403_FORBIDDEN)
                 serializer = DeviceSerializer(device)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except Device.DoesNotExist:
                 return Response({'error': 'Device not found'}, status=status.HTTP_404_NOT_FOUND)
         else:
-            devices = Device.objects.all()
+            if user.role == "admin":
+                devices = Device.objects.all()
+            elif user.role == "farmer":
+                devices = Device.objects.filter(farm__owner=user)
+            else:
+                devices = Device.objects.none()
             serializer = DeviceSerializer(devices, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
